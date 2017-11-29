@@ -4,6 +4,7 @@
 package com.abhishek.test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.abhishek.test.helper.Node;
@@ -48,38 +49,35 @@ public class Solution2 {
 	private static boolean checkBST(Node root) {
 		boolean isBST = false;
 		if(root != null) {
-			List<Integer> roots = new ArrayList<Integer>();
-//			roots.add(root.data);
-			isBST = traverseTree(root, true, roots, null);
+			List<Integer> nodes = new ArrayList<Integer>();
+			inorderTraverse(root, nodes);
+			System.out.println(nodes);
+//			boolean isSorted = nodes.stream().sorted().collect(Collectors.toList()).equals(nodes);
+			Iterator<Integer> iterator = nodes.iterator();
+			Integer node1 = iterator.next();
+			while(iterator.hasNext()) {
+				Integer node2 = iterator.next();
+				if(node2 <= node1) {
+					isBST = false;
+					break;
+				}
+				isBST = true;
+				node1 = node2;
+			}
+			
 		}
         return isBST;
     }
-
-	private static boolean traverseTree(Node root, boolean isBST, List<Integer> roots, String side) {
-		if(isBST){
-			if(root.left != null) {
-				if(root.left.data >= root.data || ("RIGHT".equals(side) && roots.parallelStream().filter(n -> n <= root.left.data).findAny().isPresent())) {
-					isBST = false;
-				}else{
-					List<Integer> newRoots = new ArrayList<Integer>();
-					newRoots.addAll(roots);
-					newRoots.add(root.right.data);
-					isBST = traverseTree(root.left, isBST, newRoots, "LEFT");
-				}
-			}
-			
-			if(root.right != null) {
-				if(root.right.data <= root.data || ("LEFT".equals(side) && roots.parallelStream().filter(n -> n >= root.right.data).findAny().isPresent())) {
-					isBST = false;
-				}else{
-					List<Integer> newRoots = new ArrayList<Integer>();
-					newRoots.addAll(roots);
-					newRoots.add(root.data);
-					isBST = traverseTree(root.right, isBST, newRoots, "RIGHT");
-				}
-				
-			}
+	
+	
+	private static void inorderTraverse(Node root, List<Integer> nodes) {
+		if(root.left != null) {
+			inorderTraverse(root.left, nodes);
 		}
-		return isBST;
+		nodes.add(root.data);
+		
+		if(root.right != null) {
+			inorderTraverse(root.right, nodes);
+		}
 	}
 }
