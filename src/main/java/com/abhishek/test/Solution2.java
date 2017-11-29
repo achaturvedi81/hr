@@ -3,10 +3,6 @@
  */
 package com.abhishek.test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.abhishek.test.helper.Node;
 
 /**
@@ -39,45 +35,39 @@ public class Solution2 {
 		Node node6 = new Node(7);
 		node2.left = node5;
 		node2.right = node6;
-//		Node node7 = new Node(8);
-//		Node node8 = new Node(9);
-//		node6.left = node7;
-//		node6.right = node8;
+		Node node7 = new Node(8);
+		Node node8 = new Node(9);
+		node6.left = node7;
+		node6.right = node8;
 		return rootNode;
 	}
 	
 	private static boolean checkBST(Node root) {
-		boolean isBST = false;
 		if(root != null) {
-			List<Integer> nodes = new ArrayList<Integer>();
-			inorderTraverse(root, nodes);
-			System.out.println(nodes);
-//			boolean isSorted = nodes.stream().sorted().collect(Collectors.toList()).equals(nodes);
-			Iterator<Integer> iterator = nodes.iterator();
-			Integer node1 = iterator.next();
-			while(iterator.hasNext()) {
-				Integer node2 = iterator.next();
-				if(node2 <= node1) {
-					isBST = false;
-					break;
-				}
-				isBST = true;
-				node1 = node2;
-			}
-			
+			isBST = true;
+			inorderTraverse(root);
 		}
         return isBST;
     }
 	
+	private static Node previousNode = null;
+	private static boolean isBST = false;
 	
-	private static void inorderTraverse(Node root, List<Integer> nodes) {
-		if(root.left != null) {
-			inorderTraverse(root.left, nodes);
-		}
-		nodes.add(root.data);
-		
-		if(root.right != null) {
-			inorderTraverse(root.right, nodes);
+	
+	private static void inorderTraverse(Node root) {
+		if(isBST) {
+			if (root.left != null) {
+				inorderTraverse(root.left);
+			}
+
+			if (previousNode != null && root.data <= previousNode.data) {
+				isBST = false;
+			}
+			previousNode = root;
+
+			if (root.right != null) {
+				inorderTraverse(root.right);
+			}
 		}
 	}
 }
