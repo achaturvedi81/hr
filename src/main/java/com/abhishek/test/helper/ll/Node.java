@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.abhishek.test.helper;
+package com.abhishek.test.helper.ll;
 
 /**
  * @author m975852
@@ -9,11 +9,9 @@ package com.abhishek.test.helper;
  */
 public class Node {
 	public int data;
-	public Node left;
-	public Node right;
-
+	public Node next;
+	
 	public Node(int data) {
-		super();
 		this.data = data;
 	}
 }

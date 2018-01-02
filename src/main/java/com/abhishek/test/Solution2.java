@@ -3,7 +3,7 @@
  */
 package com.abhishek.test;
 
-import com.abhishek.test.helper.Node;
+import com.abhishek.test.helper.tree.Node;
 
 /**
  * @author m975852
